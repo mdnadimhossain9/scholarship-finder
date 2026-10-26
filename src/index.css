@@ -1,83 +1,246 @@
 @import "tailwindcss";
 
-/* ── Custom animations ── */
+/* ══════════════════════════════════════════
+   KEYFRAMES
+══════════════════════════════════════════ */
+
+/* Card entrance */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* Skeleton shimmer */
 @keyframes shimmer {
-  0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
 }
 
+/* Gentle vertical float */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-8px); }
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate(2deg); }
 }
 
+/* Modal / chip pop-in */
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.92); }
+  from { opacity: 0; transform: scale(0.88); }
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* Chips slide down */
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(-12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Animation utility classes */
-.animate-fade-in-up {
-  animation: fadeInUp 0.5s ease forwards;
+/* Slowly drifting gradient background */
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
+/* Orbit — circular motion for hero blobs */
+@keyframes orbit {
+  from { transform: rotate(0deg)   translateX(90px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+}
+@keyframes orbitReverse {
+  from { transform: rotate(0deg)    translateX(70px) rotate(0deg); }
+  to   { transform: rotate(-360deg) translateX(70px) rotate(360deg); }
 }
 
-.animate-scale-in {
-  animation: scaleIn 0.25s ease forwards;
+/* Particle drift upward and fade out */
+@keyframes particleDrift {
+  0%   { opacity: 0.6; transform: translateY(0)    scale(1); }
+  100% { opacity: 0;   transform: translateY(-120px) scale(0.4); }
 }
 
-.animate-slide-down {
-  animation: slideDown 0.2s ease forwards;
+/* Typewriter cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Count-up number reveal */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Heart burst when saving */
+@keyframes heartBurst {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.6); }
+  60%  { transform: scale(0.85); }
+  100% { transform: scale(1); }
+}
+
+/* Ripple on button click */
+@keyframes ripple {
+  to { transform: scale(4); opacity: 0; }
+}
+
+/* Pulse ring around "Closing soon" badge */
+@keyframes pulseRing {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+/* Gradient bar sweep */
+@keyframes barSweep {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+
+/* Fade in (plain opacity) */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Bounce subtle */
+@keyframes bounceSoft {
+  0%, 100% { transform: translateY(0); }
+  40%       { transform: translateY(-6px); }
+  70%       { transform: translateY(-3px); }
+}
+
+
+/* ══════════════════════════════════════════
+   ANIMATION UTILITY CLASSES
+══════════════════════════════════════════ */
+
+.animate-fade-in-up   { animation: fadeInUp 0.55s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-float        { animation: float 4s ease-in-out infinite; }
+.animate-scale-in     { animation: scaleIn 0.28s cubic-bezier(0.22,1,0.36,1) forwards; }
+.animate-slide-down   { animation: slideDown 0.22s ease forwards; }
+.animate-fade-in      { animation: fadeIn 0.4s ease forwards; }
+.animate-slide-left   { animation: slideInLeft 0.4s ease forwards; }
+.animate-bounce-soft  { animation: bounceSoft 0.6s ease; }
+.animate-count-up     { animation: countUp 0.5s ease forwards; }
+
+/* Hero gradient — animated shifting */
+.hero-gradient {
+  background: linear-gradient(135deg, #1e1b4b, #4c1d95, #701a75, #1e1b4b);
+  background-size: 300% 300%;
+  animation: gradientShift 8s ease infinite;
+}
+
+/* Orbiting blobs */
+.orbit-blob {
+  animation: orbit 12s linear infinite;
+}
+.orbit-blob-reverse {
+  animation: orbitReverse 9s linear infinite;
+}
+
+/* Particle */
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  animation: particleDrift linear infinite;
+}
+
+/* Typewriter cursor */
+.typewriter-cursor {
+  display: inline-block;
+  width: 3px;
+  background: #fbbf24;
+  margin-left: 3px;
+  animation: blink 0.9s step-end infinite;
+  vertical-align: text-bottom;
+}
+
+/* Heart burst */
+.heart-burst {
+  animation: heartBurst 0.4s cubic-bezier(0.36,0.07,0.19,0.97) both;
+}
+
+/* Ripple container */
+.ripple-btn {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-btn .ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: scale(0);
+  animation: ripple 0.6s linear;
+  pointer-events: none;
+}
+
+/* Pulse ring on "Closing soon" badge */
+.pulse-ring {
+  position: relative;
+}
+.pulse-ring::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 2px solid #f97316;
+  animation: pulseRing 1.4s ease-out infinite;
+}
+
+/* Sweeping gradient top-bar on card hover */
+.card-bar {
+  background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899, #6366f1);
+  background-size: 200% auto;
+  transition: background-position 0.6s ease;
+}
+.group:hover .card-bar {
+  animation: barSweep 1.5s linear infinite;
 }
 
 /* Skeleton shimmer */
 .skeleton {
   background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
-  background-size: 400px 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
 }
-
-/* Dark mode skeleton */
 .dark .skeleton {
   background: linear-gradient(90deg, #1e293b 25%, #273148 50%, #1e293b 75%);
-  background-size: 400px 100%;
+  background-size: 600px 100%;
 }
 
-/* Card stagger delays */
-.card-1  { animation-delay: 0.05s; }
-.card-2  { animation-delay: 0.10s; }
-.card-3  { animation-delay: 0.15s; }
-.card-4  { animation-delay: 0.20s; }
-.card-5  { animation-delay: 0.25s; }
-.card-6  { animation-delay: 0.30s; }
-.card-7  { animation-delay: 0.35s; }
-.card-8  { animation-delay: 0.40s; }
-.card-9  { animation-delay: 0.45s; }
-.card-10 { animation-delay: 0.50s; }
-.card-11 { animation-delay: 0.55s; }
-.card-12 { animation-delay: 0.60s; }
+/* Card stagger entrance delays */
+.card-1  { animation-delay: 0.04s; }
+.card-2  { animation-delay: 0.09s; }
+.card-3  { animation-delay: 0.14s; }
+.card-4  { animation-delay: 0.19s; }
+.card-5  { animation-delay: 0.24s; }
+.card-6  { animation-delay: 0.29s; }
+.card-7  { animation-delay: 0.34s; }
+.card-8  { animation-delay: 0.39s; }
+.card-9  { animation-delay: 0.44s; }
+.card-10 { animation-delay: 0.49s; }
+.card-11 { animation-delay: 0.54s; }
+.card-12 { animation-delay: 0.59s; }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+/* Custom scrollbar */
+::-webkit-scrollbar       { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 9999px; }
 .dark ::-webkit-scrollbar-thumb { background: #4338ca; }
 
 /* Modal backdrop */
 .modal-backdrop {
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* 3-D card tilt (applied via JS inline style) */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease, box-shadow 0.3s ease;
 }
