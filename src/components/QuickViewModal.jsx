@@ -1,20 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 
-// QuickViewModal — animated full-detail overlay
+// QuickViewModal — mounts only when a scholarship is selected (App.jsx gates rendering)
 function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
-  // Animate in — visible flips to true after mount via RAF so CSS transition fires
+  // Animate open: start invisible, flip to visible after one frame so CSS transition fires
   const [visible, setVisible] = useState(false);
   const rafRef = useRef(null);
 
   useEffect(() => {
-    // Lock body scroll and trigger open animation
+    // Lock page scroll while modal is open
     document.body.style.overflow = "hidden";
+    // Trigger open animation on next frame
     rafRef.current = requestAnimationFrame(() => setVisible(true));
     return () => {
+      // Restore scroll when modal unmounts
       cancelAnimationFrame(rafRef.current);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, []); // runs once on mount / cleanup on unmount
 
   // Close on Escape key
   useEffect(() => {
@@ -23,13 +25,11 @@ function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
-  if (!scholarship) return null;
-
   const { name, country, level, field, deadline, amount, funded, link } = scholarship;
 
-  // Days left
-  const today = new Date(); today.setHours(0,0,0,0);
-  const dl    = new Date(deadline); dl.setHours(0,0,0,0);
+  // Days left until deadline
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const dl    = new Date(deadline); dl.setHours(0, 0, 0, 0);
   const daysLeft = Math.floor((dl - today) / 86400000);
 
   const levelColors = {
@@ -39,24 +39,24 @@ function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
   };
 
   return (
-    /* Animated backdrop */
+    /* Backdrop — fades in */
     <div
       onClick={onClose}
       className={`fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop
                   transition-all duration-300
                   ${visible ? "bg-black/60" : "bg-black/0 pointer-events-none"}`}
     >
-      {/* Modal panel */}
+      {/* Modal panel — scales + slides up on open */}
       <div
         onClick={(e) => e.stopPropagation()}
         className={`relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl
                     overflow-hidden transition-all duration-300
                     ${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-8"}`}
       >
-        {/* Animated sweeping top bar */}
+        {/* Animated sweeping gradient top bar */}
         <div className="h-2 card-bar" />
 
-        {/* Header row */}
+        {/* Header */}
         <div className="px-6 pt-5 pb-4 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between gap-3">
           <div className="animate-slide-left">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-snug">{name}</h2>
@@ -71,31 +71,34 @@ function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
           </button>
         </div>
 
-        {/* Amount highlight */}
-        <div className="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20
+        {/* Award amount highlight strip */}
+        <div className="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50
+                        dark:from-indigo-900/20 dark:to-purple-900/20
                         border-b border-gray-100 dark:border-gray-800 flex items-center gap-3">
-          <span className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400 animate-count-up">{amount}</span>
-          <span className={`px-3 py-1 rounded-full text-xs font-bold
-            ${funded === "Fully Funded"
+          <span className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{amount}</span>
+          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+            funded === "Fully Funded"
               ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-              : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"}`}>
+              : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
+          }`}>
             {funded}
           </span>
         </div>
 
-        {/* Details grid — each row staggered */}
+        {/* Detail rows — each staggered */}
         <div className="px-6 py-5 grid grid-cols-2 gap-4">
           {[
-            { icon:"🎓", label:"Study Level",   value:<span className={`px-2 py-0.5 rounded-full text-xs font-bold ${levelColors[level]}`}>{level}</span>, delay:"0.05s" },
-            { icon:"📖", label:"Field",          value: field,   delay:"0.10s" },
-            { icon:"📅", label:"Deadline",       value: new Date(deadline).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}), delay:"0.15s" },
-            { icon:"⏳", label:"Days Remaining", value:
-                daysLeft < 0
-                  ? <span className="text-red-500 font-bold">Expired</span>
-                  : daysLeft <= 7
-                  ? <span className="text-orange-500 font-bold">{daysLeft} days ⚡</span>
-                  : <span className="text-green-600 font-bold">{daysLeft} days left</span>,
-              delay:"0.20s" },
+            { icon: "🎓", label: "Study Level",   delay: "0.05s",
+              value: <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${levelColors[level]}`}>{level}</span> },
+            { icon: "📖", label: "Field",         delay: "0.10s", value: field },
+            { icon: "📅", label: "Deadline",      delay: "0.15s",
+              value: new Date(deadline).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" }) },
+            { icon: "⏳", label: "Days Remaining", delay: "0.20s",
+              value: daysLeft < 0
+                ? <span className="text-red-500 font-bold">Expired</span>
+                : daysLeft <= 7
+                ? <span className="text-orange-500 font-bold">{daysLeft} days ⚡</span>
+                : <span className="text-green-600 font-bold">{daysLeft} days left</span> },
           ].map(({ icon, label, value, delay }) => (
             <div key={label}
                  className="opacity-0 animate-fade-in-up flex flex-col gap-0.5"

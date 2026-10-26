@@ -182,13 +182,15 @@ function App() {
         </div>
       </footer>
 
-      {/* Quick View Modal — rendered at app root so it overlays everything */}
-      <QuickViewModal
-        scholarship={modalScholarship}
-        isSaved={modalScholarship ? savedIds.includes(modalScholarship.id) : false}
-        onToggleSave={handleToggleSave}
-        onClose={() => setModalScholarship(null)}
-      />
+      {/* Quick View Modal — only mounted when a scholarship is selected */}
+      {modalScholarship && (
+        <QuickViewModal
+          scholarship={modalScholarship}
+          isSaved={savedIds.includes(modalScholarship.id)}
+          onToggleSave={handleToggleSave}
+          onClose={() => setModalScholarship(null)}
+        />
+      )}
     </div>
   );
 }
