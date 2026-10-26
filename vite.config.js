@@ -4,8 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  // base must match the GitHub repo name for GitHub Pages to work
+  base: '/scholarship-finder/',
   plugins: [
     react(),
-    tailwindcss(), // Tailwind CSS via Vite plugin
+    tailwindcss(),
   ],
 })
