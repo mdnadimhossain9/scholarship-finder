@@ -1,11 +1,14 @@
-// Sample scholarship data — 12 entries
+// Scholarship data — 12 entries with id, name, country, level, deadline, link, amount, and field
 const scholarships = [
   {
     id: 1,
     name: "Fulbright Foreign Student Program",
     country: "USA",
     level: "Masters",
+    field: "All Fields",
     deadline: "2026-11-15",
+    amount: "$50,000",
+    funded: "Fully Funded",
     link: "https://foreign.fulbrightonline.org/",
   },
   {
@@ -13,7 +16,10 @@ const scholarships = [
     name: "Chevening Scholarships",
     country: "UK",
     level: "Masters",
+    field: "All Fields",
     deadline: "2026-11-05",
+    amount: "£18,000",
+    funded: "Fully Funded",
     link: "https://www.chevening.org/",
   },
   {
@@ -21,7 +27,10 @@ const scholarships = [
     name: "DAAD Research Grants",
     country: "Germany",
     level: "PhD",
+    field: "Research",
     deadline: "2026-10-31",
+    amount: "€1,200/mo",
+    funded: "Fully Funded",
     link: "https://www.daad.de/en/",
   },
   {
@@ -29,7 +38,10 @@ const scholarships = [
     name: "Australia Awards Scholarships",
     country: "Australia",
     level: "Masters",
+    field: "All Fields",
     deadline: "2026-10-28",
+    amount: "AUD 30,000",
+    funded: "Fully Funded",
     link: "https://www.australiaawards.gov.au/",
   },
   {
@@ -37,7 +49,10 @@ const scholarships = [
     name: "Erasmus Mundus Joint Master Degrees",
     country: "EU",
     level: "Masters",
+    field: "All Fields",
     deadline: "2027-01-20",
+    amount: "€24,000/yr",
+    funded: "Fully Funded",
     link: "https://erasmus-plus.ec.europa.eu/",
   },
   {
@@ -45,7 +60,10 @@ const scholarships = [
     name: "Gates Cambridge Scholarship",
     country: "UK",
     level: "PhD",
+    field: "All Fields",
     deadline: "2026-12-03",
+    amount: "£21,000/yr",
+    funded: "Fully Funded",
     link: "https://www.gatescambridge.org/",
   },
   {
@@ -53,7 +71,10 @@ const scholarships = [
     name: "Swiss Government Excellence Scholarships",
     country: "Switzerland",
     level: "PhD",
+    field: "Science & Arts",
     deadline: "2026-11-30",
+    amount: "CHF 1,920/mo",
+    funded: "Fully Funded",
     link: "https://www.sbfi.admin.ch/scholarships",
   },
   {
@@ -61,7 +82,10 @@ const scholarships = [
     name: "Korean Government Scholarship (KGSP)",
     country: "South Korea",
     level: "Bachelor",
+    field: "All Fields",
     deadline: "2027-02-28",
+    amount: "₩900,000/mo",
+    funded: "Fully Funded",
     link: "https://www.studyinkorea.go.kr/",
   },
   {
@@ -69,7 +93,10 @@ const scholarships = [
     name: "Japanese Government (MEXT) Scholarship",
     country: "Japan",
     level: "Bachelor",
+    field: "All Fields",
     deadline: "2026-10-29",
+    amount: "¥117,000/mo",
+    funded: "Fully Funded",
     link: "https://www.mext.go.jp/en/",
   },
   {
@@ -77,7 +104,10 @@ const scholarships = [
     name: "New Zealand Excellence Awards",
     country: "New Zealand",
     level: "Masters",
+    field: "All Fields",
     deadline: "2026-11-28",
+    amount: "NZD 10,000",
+    funded: "Partial",
     link: "https://www.studywithnewzealand.govt.nz/",
   },
   {
@@ -85,7 +115,10 @@ const scholarships = [
     name: "Chinese Government Scholarship (CSC)",
     country: "China",
     level: "PhD",
+    field: "All Fields",
     deadline: "2027-03-15",
+    amount: "CNY 3,500/mo",
+    funded: "Fully Funded",
     link: "https://www.csc.edu.cn/",
   },
   {
@@ -93,7 +126,10 @@ const scholarships = [
     name: "ADB-Japan Scholarship Program",
     country: "Japan",
     level: "Masters",
+    field: "Economics",
     deadline: "2026-10-27",
+    amount: "$30,000",
+    funded: "Fully Funded",
     link: "https://www.adb.org/work-with-us/careers/japan-scholarship-program",
   },
 ];

@@ -1,1 +1,83 @@
 @import "tailwindcss";
+
+/* ── Custom animations ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation utility classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.25s ease forwards;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease forwards;
+}
+
+/* Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* Dark mode skeleton */
+.dark .skeleton {
+  background: linear-gradient(90deg, #1e293b 25%, #273148 50%, #1e293b 75%);
+  background-size: 400px 100%;
+}
+
+/* Card stagger delays */
+.card-1  { animation-delay: 0.05s; }
+.card-2  { animation-delay: 0.10s; }
+.card-3  { animation-delay: 0.15s; }
+.card-4  { animation-delay: 0.20s; }
+.card-5  { animation-delay: 0.25s; }
+.card-6  { animation-delay: 0.30s; }
+.card-7  { animation-delay: 0.35s; }
+.card-8  { animation-delay: 0.40s; }
+.card-9  { animation-delay: 0.45s; }
+.card-10 { animation-delay: 0.50s; }
+.card-11 { animation-delay: 0.55s; }
+.card-12 { animation-delay: 0.60s; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #c7d2fe; border-radius: 9999px; }
+.dark ::-webkit-scrollbar-thumb { background: #4338ca; }
+
+/* Modal backdrop */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
