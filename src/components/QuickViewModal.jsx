@@ -1,24 +1,19 @@
 import { useEffect, useRef, useState } from "react";
+import Icon from "./Icons";
 
-// QuickViewModal — mounts only when a scholarship is selected (App.jsx gates rendering)
 function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
-  // Animate open: start invisible, flip to visible after one frame so CSS transition fires
   const [visible, setVisible] = useState(false);
   const rafRef = useRef(null);
 
   useEffect(() => {
-    // Lock page scroll while modal is open
     document.body.style.overflow = "hidden";
-    // Trigger open animation on next frame
     rafRef.current = requestAnimationFrame(() => setVisible(true));
     return () => {
-      // Restore scroll when modal unmounts
       cancelAnimationFrame(rafRef.current);
       document.body.style.overflow = "";
     };
-  }, []); // runs once on mount / cleanup on unmount
+  }, []);
 
-  // Close on Escape key
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -27,110 +22,101 @@ function QuickViewModal({ scholarship, isSaved, onToggleSave, onClose }) {
 
   const { name, country, level, field, deadline, amount, funded, link } = scholarship;
 
-  // Days left until deadline
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const dl    = new Date(deadline); dl.setHours(0, 0, 0, 0);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dl    = new Date(deadline); dl.setHours(0,0,0,0);
   const daysLeft = Math.floor((dl - today) / 86400000);
 
   const levelColors = {
-    Bachelor: "bg-blue-100   text-blue-700   dark:bg-blue-900/40   dark:text-blue-300",
-    Masters:  "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300",
-    PhD:      "bg-pink-100   text-pink-700   dark:bg-pink-900/40   dark:text-pink-300",
+    Bachelor: "bg-sky-100   text-sky-700   dark:bg-sky-900/40   dark:text-sky-300",
+    Masters:  "bg-cyan-100  text-cyan-700  dark:bg-cyan-900/40  dark:text-cyan-300",
+    PhD:      "bg-blue-100  text-blue-700  dark:bg-blue-900/40  dark:text-blue-300",
   };
 
   return (
-    /* Backdrop — fades in */
-    <div
-      onClick={onClose}
-      className={`fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop
-                  transition-all duration-300
-                  ${visible ? "bg-black/60" : "bg-black/0 pointer-events-none"}`}
-    >
-      {/* Modal panel — scales + slides up on open */}
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className={`relative w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl
-                    overflow-hidden transition-all duration-300
-                    ${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-8"}`}
-      >
-        {/* Animated sweeping gradient top bar */}
+    <div onClick={onClose}
+         className={`fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop
+                     transition-all duration-300
+                     ${visible ? "bg-black/60" : "bg-black/0 pointer-events-none"}`}>
+      <div onClick={(e) => e.stopPropagation()}
+           className={`relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl
+                       overflow-hidden transition-all duration-300
+                       ${visible ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-90 translate-y-8"}`}>
+
+        {/* Top bar */}
         <div className="h-2 card-bar" />
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between gap-3">
+        <div className="px-6 pt-5 pb-4 border-b border-slate-100 dark:border-slate-800
+                        flex items-start justify-between gap-3">
           <div className="animate-slide-left">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-snug">{name}</h2>
-            <p className="text-sm text-gray-400 mt-0.5">📍 {country}</p>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white leading-snug">{name}</h2>
+            <p className="text-sm text-slate-400 mt-0.5 flex items-center gap-1">
+              <Icon.MapPin className="w-3.5 h-3.5" />{country}
+            </p>
           </div>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl leading-none
-                       flex-shrink-0 mt-0.5 hover:rotate-90 hover:scale-110 transition-transform duration-200"
-          >
-            ✕
+          <button onClick={onClose}
+                  className="text-slate-400 hover:text-slate-700 dark:hover:text-white
+                             flex-shrink-0 mt-0.5 hover:rotate-90 hover:scale-110 transition-transform duration-200">
+            <Icon.X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Award amount highlight strip */}
-        <div className="px-6 py-4 bg-gradient-to-r from-indigo-50 to-purple-50
-                        dark:from-indigo-900/20 dark:to-purple-900/20
-                        border-b border-gray-100 dark:border-gray-800 flex items-center gap-3">
-          <span className="text-3xl font-extrabold text-indigo-600 dark:text-indigo-400">{amount}</span>
-          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-            funded === "Fully Funded"
+        {/* Amount highlight */}
+        <div className="px-6 py-4 bg-gradient-to-r from-sky-50 to-cyan-50
+                        dark:from-sky-900/20 dark:to-cyan-900/20
+                        border-b border-slate-100 dark:border-slate-800 flex items-center gap-3">
+          <span className="text-3xl font-extrabold text-sky-700 dark:text-sky-400">{amount}</span>
+          <span className={`px-3 py-1 rounded-full text-xs font-bold
+            ${funded === "Fully Funded"
               ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
-              : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
-          }`}>
+              : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"}`}>
             {funded}
           </span>
         </div>
 
-        {/* Detail rows — each staggered */}
+        {/* Detail grid */}
         <div className="px-6 py-5 grid grid-cols-2 gap-4">
           {[
-            { icon: "🎓", label: "Study Level",   delay: "0.05s",
+            { icon: <Icon.GraduationCap className="w-3.5 h-3.5" />, label: "Study Level", delay: "0.05s",
               value: <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${levelColors[level]}`}>{level}</span> },
-            { icon: "📖", label: "Field",         delay: "0.10s", value: field },
-            { icon: "📅", label: "Deadline",      delay: "0.15s",
-              value: new Date(deadline).toLocaleDateString("en-US", { year:"numeric", month:"long", day:"numeric" }) },
-            { icon: "⏳", label: "Days Remaining", delay: "0.20s",
+            { icon: <Icon.BookOpen      className="w-3.5 h-3.5" />, label: "Field",        delay: "0.10s", value: field },
+            { icon: <Icon.Calendar      className="w-3.5 h-3.5" />, label: "Deadline",     delay: "0.15s",
+              value: new Date(deadline).toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}) },
+            { icon: <Icon.Clock         className="w-3.5 h-3.5" />, label: "Days Left",    delay: "0.20s",
               value: daysLeft < 0
                 ? <span className="text-red-500 font-bold">Expired</span>
                 : daysLeft <= 7
                 ? <span className="text-orange-500 font-bold">{daysLeft} days ⚡</span>
-                : <span className="text-green-600 font-bold">{daysLeft} days left</span> },
+                : <span className="text-emerald-600 font-bold">{daysLeft} days left</span> },
           ].map(({ icon, label, value, delay }) => (
-            <div key={label}
-                 className="opacity-0 animate-fade-in-up flex flex-col gap-0.5"
+            <div key={label} className="opacity-0 animate-fade-in-up flex flex-col gap-0.5"
                  style={{ animationDelay: delay }}>
-              <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">{icon} {label}</span>
-              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">{value}</span>
+              <span className="text-xs text-slate-400 dark:text-slate-500 font-medium flex items-center gap-1">
+                {icon}{label}
+              </span>
+              <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">{value}</span>
             </div>
           ))}
         </div>
 
         {/* Action buttons */}
         <div className="px-6 pb-6 flex gap-3">
-          <button
-            onClick={() => onToggleSave(scholarship.id)}
-            className={`flex-1 py-3 rounded-xl font-semibold text-sm border-2
-                        hover:scale-105 active:scale-95 transition-all duration-200
-                        ${isSaved
-                          ? "border-red-400 text-red-500 dark:text-red-400 bg-red-50 dark:bg-red-900/20"
-                          : "border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-indigo-400 hover:text-indigo-600"}`}
-          >
-            {isSaved ? "❤️ Saved" : "🤍 Save"}
+          <button onClick={() => onToggleSave(scholarship.id)}
+                  className={`flex-1 inline-flex items-center justify-center gap-2 py-3 rounded-xl
+                              font-semibold text-sm border-2 hover:scale-105 active:scale-95
+                              transition-all duration-200
+                              ${isSaved
+                                ? "border-rose-400 text-rose-500 dark:text-rose-400 bg-rose-50 dark:bg-rose-900/20"
+                                : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-sky-400 hover:text-sky-600"}`}>
+            <Icon.Heart filled={isSaved} className="w-4 h-4" />
+            {isSaved ? "Saved" : "Save"}
           </button>
-          <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-[2] py-3 px-6 rounded-xl font-semibold text-sm text-center
-                       bg-gradient-to-r from-indigo-600 to-purple-600 text-white
-                       hover:from-indigo-500 hover:to-purple-500 hover:scale-105
-                       active:scale-95 transition-all duration-200 shadow-md"
-          >
-            Apply Now →
+          <a href={link} target="_blank" rel="noopener noreferrer"
+             className="flex-[2] inline-flex items-center justify-center gap-2 py-3 px-6 rounded-xl
+                        font-semibold text-sm bg-gradient-to-r from-sky-600 to-cyan-600 text-white
+                        hover:from-sky-500 hover:to-cyan-500 hover:scale-105
+                        active:scale-95 transition-all duration-200 shadow-md">
+            Apply Now <Icon.ArrowRight className="w-4 h-4" />
           </a>
         </div>
       </div>

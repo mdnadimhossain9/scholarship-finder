@@ -1,28 +1,32 @@
-// SearchBar — controlled input for searching by scholarship name
+import Icon from "./Icons";
+
+// SearchBar — controlled input with SVG search icon
 function SearchBar({ query, setQuery }) {
   return (
     <div className="relative">
-      {/* Search icon */}
-      <span className="absolute inset-y-0 left-4 flex items-center text-gray-400 pointer-events-none text-lg">
-        🔍
+      <span className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+        <Icon.Search className="w-4 h-4 text-slate-400" />
       </span>
       <input
         type="text"
         placeholder="Search scholarships by name..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full pl-11 pr-10 py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700
-                   bg-white dark:bg-gray-800 shadow-sm text-gray-700 dark:text-gray-200
-                   placeholder-gray-400 dark:placeholder-gray-500
-                   focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"
+        className="w-full pl-11 pr-10 py-3.5 rounded-2xl
+                   border border-slate-200 dark:border-slate-700
+                   bg-white dark:bg-slate-800 shadow-sm
+                   text-slate-700 dark:text-slate-200
+                   placeholder-slate-400 dark:placeholder-slate-500
+                   focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400
+                   transition-all duration-200"
       />
-      {/* Clear button */}
       {query && (
         <button
           onClick={() => setQuery("")}
-          className="absolute inset-y-0 right-4 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+          className="absolute inset-y-0 right-4 flex items-center
+                     text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
         >
-          ✕
+          <Icon.X className="w-4 h-4" />
         </button>
       )}
     </div>

@@ -92,7 +92,7 @@ function App() {
   const countryCount = unique(scholarships, "country").length;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col transition-colors duration-300">
 
       {/* Sticky header */}
       <Header
@@ -114,8 +114,8 @@ function App() {
         {/* Saved tab header */}
         {activeTab === "saved" && (
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white">❤️ Saved Scholarships</h2>
-            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-white">Saved Scholarships</h2>
+            <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
               {savedIds.length === 0
                 ? "You haven't saved any scholarships yet."
                 : `You have ${savedIds.length} saved scholarship${savedIds.length !== 1 ? "s" : ""}.`}
@@ -151,7 +151,7 @@ function App() {
 
         {/* Result count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-medium text-gray-400 dark:text-gray-500">
+          <p className="text-sm font-medium text-slate-400 dark:text-slate-500">
             {loading ? "Loading..." : `${displayed.length} scholarship${displayed.length !== 1 ? "s" : ""} found`}
           </p>
         </div>
@@ -167,15 +167,19 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-8 px-4">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400 dark:text-gray-500">
+      <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-4">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400 dark:text-slate-500">
           <div className="flex items-center gap-2">
-            <span className="text-xl">🎓</span>
-            <span className="font-bold text-gray-600 dark:text-gray-300">ScholarshipFinder</span>
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="w-4 h-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+              </svg>
+            </div>
+            <span className="font-bold text-slate-600 dark:text-slate-300">ScholarshipFinder</span>
           </div>
           <p className="text-center text-xs">
-            ⚠️ Always verify deadlines on the{" "}
-            <span className="font-semibold text-indigo-500">official website</span>{" "}
+            Always verify deadlines on the{" "}
+            <span className="font-semibold text-sky-500">official website</span>{" "}
             before applying.
           </p>
           <p className="text-xs">© {new Date().getFullYear()} ScholarshipFinder</p>
